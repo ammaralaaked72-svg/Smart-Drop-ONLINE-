@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SmartDrop | Smart Water Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+:root{--bg:#06101d;--panel:#0b1a2b;--panel2:#0f2237;--line:#1d3a55;--text:#eef7ff;--muted:#8da5ba;--good:#45e0a0;--warn:#f5c85b;--bad:#ff6d7d;--accent:#55b9ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% 5%,#12365a 0,#06101d 36%,#040b14 100%);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+header{position:sticky;top:0;z-index:10;background:rgba(4,12,21,.86);backdrop-filter:blur(18px);border-bottom:1px solid #18334d}
+.nav{max-width:1250px;margin:auto;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px}.logo{display:flex;align-items:center;gap:12px}.logoMark{width:44px;height:44px;border-radius:14px;background:linear-gradient(145deg,#4bdcff,#3878ff);display:grid;place-items:center;font-weight:900;color:#03101e;box-shadow:0 8px 30px #277fff44}.logo b{font-size:21px}.logo small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px;margin-top:2px}.online{border:1px solid #24523f;background:#0d2c23;color:#79edba;padding:8px 12px;border-radius:999px;font-size:12px}
+main{max-width:1250px;margin:auto;padding:28px 22px 50px}.hero{display:grid;grid-template-columns:1.6fr .8fr;gap:18px;align-items:stretch}.heroBox,.scoreBox,.card{background:linear-gradient(145deg,rgba(15,35,55,.94),rgba(8,22,36,.94));border:1px solid var(--line);border-radius:24px;box-shadow:0 18px 50px #0003}
+.heroBox{padding:30px}.eyebrow{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:2px}.hero h1{font-size:clamp(30px,5vw,52px);line-height:1.05;margin:12px 0}.hero p{color:var(--muted);max-width:700px;line-height:1.8}.scoreBox{padding:25px;display:flex;flex-direction:column;justify-content:center}.score{font-size:58px;font-weight:900;margin:5px 0}.scoreLabel{color:var(--muted)}.bar{height:10px;background:#152c43;border-radius:99px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#3f9eff,#45e0a0);transition:.5s}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}.metric{padding:22px}.metricTop{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}.metricIcon{font-size:20px}.metricValue{font-size:34px;font-weight:900;margin-top:14px}.unit{font-size:13px;color:var(--muted);font-weight:400}.mini{font-size:11px;color:var(--good);margin-top:8px}
+.layout{display:grid;grid-template-columns:1.35fr .65fr;gap:16px;margin-top:16px}.card{padding:22px}.cardTitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.cardTitle h2{font-size:17px;margin:0}.muted{color:var(--muted);font-size:12px}
+canvas{width:100%;height:220px;display:block}.sensors{display:grid;gap:10px}.sensor{display:flex;align-items:center;justify-content:space-between;padding:14px;border-radius:15px;background:#0a1828;border:1px solid #19334c}.sensorLeft{display:flex;align-items:center;gap:11px}.dot{width:9px;height:9px;border-radius:50%;background:var(--good);box-shadow:0 0 12px var(--good)}.sensorName{font-weight:700}.sensorMeta{font-size:11px;color:var(--muted);margin-top:3px}.tag{font-size:11px;color:var(--good);background:#10362b;padding:6px 9px;border-radius:99px}
+.alert{padding:13px 15px;border-radius:14px;background:#0a1828;border:1px solid #19334c;margin-top:10px}.alert b{font-size:12px}.alert p{font-size:11px;color:var(--muted);margin:6px 0 0}.healthy{border-right:3px solid var(--good)}
+table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:12px 8px;border-bottom:1px solid #173149;text-align:right}th{color:var(--muted);font-weight:500}
+.footer{text-align:center;color:#61798e;font-size:11px;padding:25px 0}.science{color:#9bb2c5;line-height:1.8}
+@media(max-width:900px){.hero,.layout{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){main{padding:18px 12px}.metrics{grid-template-columns:1fr}.nav{padding:12px}.heroBox{padding:22px}.metricValue{font-size:29px}}
+</style>
+</head>
+<body>
+<header><div class="nav"><div class="logo"><div class="logoMark">SD</div><div><b>SmartDrop</b><small>SMART WATER INTELLIGENCE</small></div></div><div id="status" class="online">● اتصال النظام</div></div></header>
+<main>
+<section class="hero">
+<div class="heroBox"><div class="eyebrow">SCIENTIFIC INNOVATION PLATFORM</div><h1>مراقبة ذكية<br>لبيانات المياه</h1><p>منصة SmartDrop تربط الحساسات بوحدة ESP32، ثم ترسل القياسات عبر الإنترنت إلى API وقاعدة البيانات لعرضها وتحليلها لحظيًا.</p></div>
+<div class="scoreBox"><div class="scoreLabel">مؤشر موثوقية البيانات</div><div id="score" class="score">—%</div><div class="bar"><div id="fill" class="fill"></div></div><div id="scoreText" class="mini">بانتظار البيانات...</div></div>
+</section>
+
+<section class="metrics">
+<div class="card metric"><div class="metricTop"><span>الحموضة pH</span><span class="metricIcon">◉</span></div><div id="ph" class="metricValue">—</div><div class="mini">قراءة مباشرة</div></div>
+<div class="card metric"><div class="metricTop"><span>التوصيلية EC</span><span class="metricIcon">≈</span></div><div id="ec" class="metricValue">— <span class="unit">µS/cm</span></div><div class="mini">قراءة مباشرة</div></div>
+<div class="card metric"><div class="metricTop"><span>العكارة</span><span class="metricIcon">◌</span></div><div id="turbidity" class="metricValue">— <span class="unit">NTU*</span></div><div class="mini">حسب المعايرة</div></div>
+<div class="card metric"><div class="metricTop"><span>درجة الحرارة</span><span class="metricIcon">℃</span></div><div id="temp" class="metricValue">— <span class="unit">°C</span></div><div class="mini">قراءة مباشرة</div></div>
+</section>
+
+<section class="layout">
+<div class="card"><div class="cardTitle"><h2>منحنى القراءات</h2><span class="muted">آخر 30 قراءة</span></div><canvas id="chart"></canvas></div>
+<div class="card"><div class="cardTitle"><h2>حالة الحساسات</h2><span class="muted">Live</span></div><div id="sensors" class="sensors"></div></div>
+</section>
+
+<section class="layout">
+<div class="card"><div class="cardTitle"><h2>سجل القياسات</h2><span class="muted">تحديث تلقائي كل 5 ثوانٍ</span></div><div style="overflow:auto"><table><thead><tr><th>الوقت</th><th>pH</th><th>EC</th><th>العكارة</th><th>الحرارة</th><th>الموثوقية</th></tr></thead><tbody id="history"></tbody></table></div></div>
+<div class="card"><div class="cardTitle"><h2>نظام التنبيهات</h2></div><div id="alerts"></div></div>
+</section>
+
+<section class="card" style="margin-top:16px"><div class="cardTitle"><h2>المنهج العلمي</h2><span class="muted">SmartDrop</span></div><div class="science">تستخدم المنصة عدة مؤشرات قابلة للقياس لبناء صورة لحظية عن حالة البيانات وجودة الإشارة، مع حساب مؤشر موثوقية يعتمد على القيم والاختلافات المكتشفة. هذه المنصة لا تُعد شهادة لصلاحية مياه الشرب ولا تكشف جميع الملوثات؛ يلزم التحليل المخبري عند الحاجة.</div></section>
+<div class="footer">SMARTDROP ONLINE • Scientific Innovation Project • ESP32 / API / Database</div>
+</main>
+<script>
+let hist=[];
+const $=id=>document.getElementById(id);
+async function get(u){let r=await fetch(u);if(!r.ok)throw Error();return r.json()}
+function renderLatest(x){if(!x)return;$("ph").textContent=x.ph.toFixed(2);$("ec").innerHTML=x.ec.toFixed(1)+' <span class="unit">µS/cm</span>';$("turbidity").innerHTML=x.turbidity.toFixed(2)+' <span class="unit">NTU*</span>';$("temp").innerHTML=x.temperature.toFixed(2)+' <span class="unit">°C</span>';$("score").textContent=x.reliability.toFixed(1)+"%";$("fill").style.width=Math.max(0,Math.min(100,x.reliability))+"%";$("scoreText").textContent=x.reliability>=90?"حالة ممتازة للبيانات":x.reliability>=75?"تحتاج المتابعة":"تنبيه: راجع الحساسات";renderSensors(x.sensor_health||{})}
+function renderSensors(h){let names={ph:"حساس pH",ec:"حساس EC",turbidity:"حساس العكارة",temperature:"حساس الحرارة"};$("sensors").innerHTML=Object.entries(names).map(([k,n])=>`<div class="sensor"><div class="sensorLeft"><span class="dot"></span><div><div class="sensorName">${n}</div><div class="sensorMeta">حالة الاتصال والإشارة</div></div></div><span class="tag">${h[k]||"OK"}</span></div>`).join("")}
+function draw(){let c=$("chart"),d=c.getBoundingClientRect(),r=devicePixelRatio||1;c.width=d.width*r;c.height=220*r;let x=c.getContext("2d");x.scale(r,r);let w=d.width,h=220;x.clearRect(0,0,w,h);if(hist.length<2)return;let vals=hist.map(a=>a.reliability),min=Math.min(...vals)-2,max=Math.max(...vals)+2;x.strokeStyle="#21445f";x.lineWidth=1;for(let i=0;i<5;i++){let y=18+i*(h-36)/4;x.beginPath();x.moveTo(0,y);x.lineTo(w,y);x.stroke()}x.strokeStyle="#55b9ff";x.lineWidth=3;x.beginPath();hist.forEach((p,i)=>{let px=i*(w-20)/(hist.length-1)+10,py=h-18-(p.reliability-min)/(max-min)*(h-36);i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke()}
+function renderHistory(a){hist=a.slice(-30);$("history").innerHTML=a.slice().reverse().slice(0,12).map(x=>`<tr><td>${new Date(x.created_at+"Z").toLocaleTimeString("ar")}</td><td>${x.ph.toFixed(2)}</td><td>${x.ec.toFixed(1)}</td><td>${x.turbidity.toFixed(2)}</td><td>${x.temperature.toFixed(2)}</td><td>${x.reliability.toFixed(1)}%</td></tr>`).join("");draw();let bad=a.filter(x=>x.anomaly);$("alerts").innerHTML=bad.length?bad.slice(-4).reverse().map(x=>`<div class="alert"><b>⚠ قراءة تحتاج مراجعة</b><p>${new Date(x.created_at+"Z").toLocaleString("ar")}</p></div>`).join(""):'<div class="alert healthy"><b>✓ لا توجد تنبيهات</b><p>النظام يعمل ضمن الحالة الحالية.</p></div>'}
+async function load(){try{let [l,h]=await Promise.all([get("/api/latest"),get("/api/history?limit=30")]);renderLatest(l.reading);renderHistory(h.readings);$("status").textContent="● النظام متصل";}catch(e){$("status").textContent="● تعذر الاتصال";}}
+load();setInterval(load,5000);addEventListener("resize",draw);
+</script>
+</body></html>

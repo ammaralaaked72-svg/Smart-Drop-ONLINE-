@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: smartdrop-online
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: SMARTDROP_API_KEY
+        generateValue: true
+      - key: SMARTDROP_DB_DIR
+        value: /var/data
+    disk:
+      name: smartdrop-data
+      mountPath: /var/data
+      sizeGB: 1

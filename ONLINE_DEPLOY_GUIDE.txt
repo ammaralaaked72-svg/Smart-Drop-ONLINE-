@@ -1,0 +1,66 @@
+SMARTDROP ONLINE V1
+====================
+
+ARCHITECTURE
+ESP32 -> HTTPS API -> SmartDrop Backend -> SQLite database -> Chrome dashboard
+
+IMPORTANT
+This package is deployment-ready. A public Chrome URL is created by the hosting provider after deployment; it cannot be generated solely inside this chat.
+
+RECOMMENDED DEPLOYMENT
+Render Web Service.
+
+1. Create a GitHub repository named:
+   smartdrop-online
+
+2. Upload all files in this folder to the repository.
+
+3. In Render:
+   New -> Web Service -> connect the GitHub repository.
+
+4. Settings:
+   Runtime: Node
+   Build Command: npm install
+   Start Command: npm start
+
+5. Environment variables:
+   SMARTDROP_API_KEY = create a strong secret
+   SMARTDROP_DB_DIR = /var/data
+
+6. Persistent disk:
+   Mount path: /var/data
+   Size: 1 GB
+
+The included render.yaml can configure these settings when using Render Blueprints.
+
+7. After deployment Render provides a public HTTPS address similar to:
+   https://smartdrop-online.onrender.com
+
+Your actual address will be assigned by Render.
+
+API endpoints
+GET  /api/health
+GET  /api/latest
+GET  /api/history?limit=50
+POST /api/readings
+
+ESP32
+Set:
+API_URL = "https://YOUR-RENDER-ADDRESS.onrender.com/api/readings"
+API_KEY = the same SMARTDROP_API_KEY value
+
+Then send JSON with the calibrated sensor readings.
+
+DATABASE
+SQLite is stored under /var/data, which is the persistent disk mount. This prevents normal deploy/restart filesystem resets from deleting the database.
+
+For a serious multi-device/production system, PostgreSQL is preferable to SQLite. For a school competition prototype, this architecture is simple and sufficient.
+
+SECURITY
+Do not publish the API key in a public repository.
+Use an environment variable on the server and put the same secret in the ESP32 firmware only when you are ready to connect the device.
+Never use a real password as the API key.
+
+SCIENCE
+Sensor conversions must be calibrated for the exact pH, EC and turbidity modules.
+SmartDrop monitors selected indicators and sensor/data reliability; it does not certify drinking-water safety or detect every contaminant.
