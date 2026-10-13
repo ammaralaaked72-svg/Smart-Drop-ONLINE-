@@ -1,0 +1,9 @@
+الملف,مكانه في المجلد,
+`server.js`,الجذر,
+`index.html`,داخل مجلد `public`,
+`package.json`,الجذر,
+`render.yaml`,الجذر,
+`SmartDrop_ESP32_API.ino`,الجذر (للواردوينو لاحقًا),
+`README.txt`,الجذر (مرجع لك),
+
+تم إنشاؤه بواسطة Kimi AI
